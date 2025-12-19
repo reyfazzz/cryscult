@@ -37,6 +37,11 @@ a {
   color: inherit;
 }
 
+.hero.full-hero {
+  height: 50vh !important; 
+  min-height: auto !important;
+}
+
 ul {
   list-style: none;
 }
@@ -1339,3 +1344,4 @@ ul {
   color: #0f0f0f !important;
   text-decoration: underline !important;
 }
+
