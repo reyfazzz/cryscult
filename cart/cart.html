@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRYS | Your Cart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="../images/logo.png" alt="CRYS">
+      </a>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">T-Shirts</a></li>
+          <li><a href="#">Caps</a></li>
+          <li><a href="#">Hoodies</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-icons">
+        <a href="#"><i class="fas fa-search"></i></a>
+        <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+        <a href="#"><i class="fas fa-user"></i></a>
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-page">
+    <div class="container">
+      <h1 class="page-title">Your Cart</h1>
+      
+      <div class="cart-container">
+        <div class="cart-items">
+          
+          <div class="empty-cart-message">
+            <p>Your cart is empty</p>
+            <a href="../index.html" class="btn btn-primary">Continue Shopping</a>
+          </div>
+        </div>
+        
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span class="subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span class="total-price">$0.00</span>
+          </div>
+          <button class="btn btn-primary checkout-btn">Checkout</button>
+          <p class="secure-checkout">
+            <i class="fas fa-lock"></i> Secure checkout
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">All Products</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Info</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="social-links">
+            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 CRYS. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="cart.js"></script>
+</body>
+</html>

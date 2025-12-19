@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metro Delivery • CRYS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      color: #111;
+    }
+
+    .page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .line-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+    }
+
+    .tab {
+      padding: 8px 22px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      background: #fff;
+    }
+
+    .tab.active {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+
+    .station-list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .station-item {
+      padding: 16px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .station-item:hover {
+      background: #f0f0f0;
+    }
+
+    .station-item.selected {
+      border-color: #111;
+      background: #e8e8e8;
+    }
+
+    .confirm-btn {
+      margin-top: 40px;
+      width: 100%;
+      padding: 16px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .confirm-btn:hover:not(:disabled) {
+      background: #333;
+    }
+
+    .confirm-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+      cursor: wait;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      max-width: 90%;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-content p {
+      font-size: 1.2rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .modal-content span {
+      font-size: 1rem;
+      color: #555;
+      display: block;
+      margin-top: 5px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.9); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <h1>Select Metro Station</h1>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search..." id="search" />
+  </div>
+
+  <div class="line-tabs">
+    <div class="tab active" data-line="all">All</div>
+    <div class="tab" data-line="red">Red</div>
+    <div class="tab" data-line="green">Green</div>
+    <div class="tab" data-line="purple">Purple</div>
+  </div>
+
+  <div class="station-list" id="list"></div>
+
+  <button class="confirm-btn" id="confirm" disabled>Confirm</button>
+</div>
+
+<script>
+  // Get URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const size = params.get('size');
+  const productId = params.get('id') || '1';
+
+  // Redirect if no size parameter
+  if (!size) {
+    window.location.href = 'index.html';
+  }
+
+  // Product name mapping (keep in sync with options.js)
+  const productNames = {
+    '1': 'cryscult T-Shirt',
+    // Add more products: '2': 'AirFlex Hoodie',
+  };
+
+  const productName = productNames[productId] || 'Product';
+
+  // Your exact Instagram conversation thread URL
+  const conversationUrl = 'https://www.instagram.com/direct/t/17849360564929725/';
+
+  // Stations data (unchanged)
+  const stations = [
+    {name:"Dərnəgül",en:"Darnagul",line:"red"},
+    {name:"Azadlıq prospekti",en:"Azadlig",line:"red"},
+    {name:"Nəsimi",en:"Nasimi",line:"red"},
+    {name:"Memar Əcəmi",en:"Memar Ajami",line:"red"},
+    {name:"20 Yanvar",en:"20 January",line:"red"},
+    {name:"İnşaatçılar",en:"Inshaatchilar",line:"red"},
+    {name:"Elmlər Akademiyası",en:"Elmlar",line:"red"},
+    {name:"Nizami",en:"Nizami",line:"red"},
+    {name:"28 May",en:"28 May",line:"red"},
+    {name:"Sahil",en:"Sahil",line:"red"},
+    {name:"İçərişəhər",en:"Icherisheher",line:"red"},
+    {name:"Gənclik",en:"Ganjlik",line:"green"},
+    {name:"Nəriman Nərimanov",en:"Narimanov",line:"green"},
+    {name:"Ulduz",en:"Ulduz",line:"green"},
+    {name:"Koroğlu",en:"Koroglu",line:"green"},
+    {name:"Qara Qarayev",en:"Gara Garayev",line:"green"},
+    {name:"Neftçilər",en:"Neftchilar",line:"green"},
+    {name:"Xalqlar Dostluğu",en:"Khalglar",line:"green"},
+    {name:"Əhmədli",en:"Ahmedli",line:"green"},
+    {name:"Həzi Aslanov",en:"Hazi Aslanov",line:"green"},
+    {name:"8 Noyabr",en:"8 November",line:"purple"},
+    {name:"Avtovağzal",en:"Bus Terminal",line:"purple"},
+    {name:"Memar Əcəmi-2",en:"Memar Ajami 2",line:"purple"},
+    {name:"Xocəsən",en:"Khojasan",line:"purple"}
+  ];
+
+  const list = document.getElementById('list');
+  let selected = null;
+
+  // Render stations
+  function render(line = 'all', search = '') {
+    list.innerHTML = '';
+    stations
+      .filter(s => line === 'all' || s.line === line)
+      .filter(s => s.name.toLowerCase().includes(search) || s.en.toLowerCase().includes(search))
+      .forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'station-item';
+        div.textContent = s.name + ' • ' + s.en;
+        div.onclick = () => {
+          document.querySelectorAll('.station-item').forEach(e => e.classList.remove('selected'));
+          div.classList.add('selected');
+          selected = s.name;
+          document.getElementById('confirm').disabled = false;
+        };
+        list.appendChild(div);
+      });
+  }
+
+  // Tab filtering
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      render(tab.dataset.line, document.getElementById('search').value.toLowerCase());
+    };
+  });
+
+  // Search functionality
+  document.getElementById('search').oninput = e => {
+    const line = document.querySelector('.tab.active').dataset.line;
+    render(line, e.target.value.toLowerCase());
+  };
+
+  // Initial render
+  render();
+
+  // Confirm button with upgraded flow
+  document.getElementById('confirm').onclick = async () => {
+    if (!selected) return;
+
+    // Create structured message
+    const message = `Salam! Sifariş vermək istəyirəm.\nModel: ${productName}\nÖlçü: ${size}\nMetro stansiyası: ${selected}`;
+
+    try {
+      // Copy message to clipboard
+      await navigator.clipboard.writeText(message);
+
+      // Show modal
+      showInstagramModal();
+
+      // Open chat thread after modal closes
+      setTimeout(() => {
+        window.location.href = conversationUrl;
+      }, 1800); // Matches modal duration + fade
+
+    } catch (err) {
+      // Fallback if clipboard fails
+      alert('Failed to copy message. Please copy manually:\n\n' + message);
+      console.error(err);
+    }
+  };
+
+  // Modal function (same as Instagram flow)
+  function showInstagramModal() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    // Create modal content
+    const modal = document.createElement('div');
+    modal.className = 'modal-content';
+    modal.innerHTML = `
+      <p>
+        Message copied ✓<br>
+        <span>Opening your chat…</span>
+      </p>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Auto-close after 1.5 seconds
+    setTimeout(() => {
+      if (overlay && overlay.parentElement) {
+        overlay.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+          if (overlay.parentElement) {
+            overlay.remove();
+          }
+        }, 300);
+      }
+    }, 1500);
+  }
+</script>
+
+</body>
+</html>

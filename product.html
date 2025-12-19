@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRYS | Product</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Modal for clipboard feedback */
+    #modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+
+    #modal .modal-content {
+      background: #fff;
+      padding: 20px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .size-btn.active {
+      background: #111;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo.jpg" alt="CRYS"></a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">T-Shirts</a></li>
+          <li><a href="#">Caps</a></li>
+          <li><a href="#">Hoodies</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-icons">
+        <a href="#"><i class="fas fa-search"></i></a>
+        <a href="#" class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+        <a href="#"><i class="fas fa-user"></i></a>
+        <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="product-page">
+  <div class="container">
+    <div class="product-details">
+      <div class="product-gallery">
+        <div class="carousel" id="carousel">
+          <img src="images/img1.png" alt="Product Front">
+          <img src="images/img2.png" alt="Product Back">
+        </div>
+        <button class="carousel-btn prev-btn" id="prevBtn">&lt;</button>
+        <button class="carousel-btn next-btn" id="nextBtn">&gt;</button>
+      </div>
+      <!-- Rest of product info (name, price, description, sizes, etc.) remains unchanged -->
+    </div>
+  </div>
+</main>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div class="modal-content">
+      <p>Message copied ✓<br>Opening Instagram…</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">All Products</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Info</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="social-links">
+            <li><a href="https://www.instagram.com/cryscult?igsh=ejRmdDgyaW56eTdy&utm_source=qr"><i class="fab fa-instagram"></i> Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CRYSCULT. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="product.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const modal = document.getElementById("modal");
+
+      // Wait until product.js inserts the product content
+      const checkInterval = setInterval(() => {
+        const proceedBtn = document.querySelector(".proceed-to-options");
+        if (!proceedBtn) return;
+
+        clearInterval(checkInterval);
+
+        let selectedSize = null;
+        const sizeButtons = document.querySelectorAll(".size-btn");
+
+        sizeButtons.forEach(btn => {
+          btn.addEventListener("click", () => {
+            sizeButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            selectedSize = btn.dataset.size;
+            proceedBtn.disabled = false;
+          });
+        });
+
+        proceedBtn.addEventListener("click", async () => {
+          if (!selectedSize) return;
+          const productName = document.querySelector(".product-details h1")?.textContent || "T-Shirt";
+          const message = `Salam! Sifariş vermək istəyirəm.\nModel: ${productName}\nÖlçü: ${selectedSize}`;
+
+          try {
+            await navigator.clipboard.writeText(message);
+            modal.style.display = "flex";
+
+            setTimeout(() => {
+              window.open(`https://www.instagram.com/direct/inbox/`, "_blank");
+            }, 800);
+
+            setTimeout(() => {
+              modal.style.display = "none";
+            }, 1800);
+          } catch (err) {
+            alert("Failed to copy message. Please copy manually.");
+          }
+        });
+      }, 100);
+    });
+  </script>
+  <script>
+  // Carousel swipe functionality
+  const carousel = document.getElementById('carousel');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentIndex = 0;
+
+  function showImage(index) {
+    const imageWidth = carousel.clientWidth;
+    carousel.style.transform = `translateX(-${index * imageWidth}px)`;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : 1; // Loops to last image
+    showImage(currentIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex < 1) ? currentIndex + 1 : 0; // Loops to first image
+    showImage(currentIndex);
+  });
+</script>
+</body>
+</html>

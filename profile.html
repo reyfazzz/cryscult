@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | CRYS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="CRYS">
+      </a>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">T-Shirts</a></li>
+          <li><a href="#">Caps</a></li>
+          <li><a href="#">Hoodies</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-icons">
+        <a href="#"><i class="fas fa-search"></i></a>
+        <a href="cart/cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+        <a href="profile.html" class="profile-icon"><i class="fas fa-user"></i></a>
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <main class="profile-container">
+    <div class="container">
+      <div class="profile-header">
+        <h1>My Profile</h1>
+        <button id="logoutBtn" class="btn btn-black">Logout</button>
+      </div>
+
+      <div class="profile-grid">
+      
+        <section class="profile-section user-info">
+          <h2>Account Details</h2>
+          <div class="profile-picture">
+            <img id="profileImg" src="https://via.placeholder.com/150" alt="Profile Picture">
+            <input type="file" id="profileUpload" accept="image/*" style="display: none;">
+            <button id="changePhotoBtn" class="btn btn-black">Change Photo</button>
+          </div>
+          <form id="userInfoForm">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" value="">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" value="">
+            </div>
+            <div class="form-group">
+              <label for="password">New Password (leave blank to keep current)</label>
+              <input type="password" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-black">Save Changes</button>
+          </form>
+        </section>
+
+       
+        <section class="profile-section order-history">
+          <h2>Order History</h2>
+          <div class="orders-list">
+            <div class="order-card">
+              <div class="order-header">
+                <span class="order-id">#CRYS-2023-001</span>
+                <span class="order-date">Oct 15, 2023</span>
+                <span class="order-status delivered">Delivered</span>
+              </div>
+              <div class="order-items">
+                <div class="order-item">
+                  <img src="images/1.jpg" alt="cryscult T-SHIRT">
+                  <div class="item-info">
+                    <h4>cryscult T-SHIRT</h4>
+                    <span>Size: M</span>
+                    <span>Qty: 1</span>
+                  </div>
+                  <div class="item-price">$45.00</div>
+                </div>
+              </div>
+              <div class="order-footer">
+                <span class="order-total">Total: $45.00</span>
+                <button class="btn btn-black">Reorder</button>
+              </div>
+            </div>
+
+            <div class="order-card">
+              <div class="order-header">
+                <span class="order-id">#CRYS-2023-002</span>
+                <span class="order-date">Nov 2, 2023</span>
+                <span class="order-status processing">Processing</span>
+              </div>
+              <div class="order-items">
+                <div class="order-item">
+                  <img src="images/5.png" alt="dick CAP">
+                  <div class="item-info">
+                    <h4>dick CAP</h4>
+                    <span>One Size</span>
+                    <span>Qty: 2</span>
+                  </div>
+                  <div class="item-price">$30.00</div>
+                </div>
+              </div>
+              <div class="order-footer">
+                <span class="order-total">Total: $60.00</span>
+                <button class="btn btn-black">Track Order</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        
+        <section class="profile-section wishlist">
+          <h2>Wishlist</h2>
+          <div class="wishlist-items">
+            <div class="wishlist-item">
+              <img src="images/3.jpg" alt="LOVE? T-SHIRT">
+              <div class="item-info">
+                <h4>LOVE? T-SHIRT</h4>
+                <span>$40.00</span>
+              </div>
+              <div class="item-actions">
+                <button class="btn btn-black">Add to Cart</button>
+                <button class="btn-remove"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+            <div class="wishlist-item">
+              <img src="images/7.png" alt="infinite vodi">
+              <div class="item-info">
+                <h4>infinite vodi</h4>
+                <span>$50.00</span>
+              </div>
+              <div class="item-actions">
+                <button class="btn btn-black">Add to Cart</button>
+                <button class="btn-remove"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      
+        <section class="profile-section payment-methods">
+          <h2>Payment Methods</h2>
+          <div class="payment-cards">
+            <div class="payment-card">
+              <i class="fab fa-cc-visa"></i>
+              <span>•••• •••• •••• 4242</span>
+              <span>Expires 05/25</span>
+              <button class="btn-remove"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="payment-card">
+              <i class="fab fa-cc-mastercard"></i>
+              <span>•••• •••• •••• 5555</span>
+              <span>Expires 11/24</span>
+              <button class="btn-remove"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <button id="addCardBtn" class="btn btn-black">Add Payment Method</button>
+        </section>
+      </div>
+    </div>
+  </main>
+
+ 
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">All Products</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Info</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul class="social-links">
+            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 CRYS. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>
