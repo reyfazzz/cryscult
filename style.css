@@ -1345,3 +1345,7 @@ ul {
   text-decoration: underline !important;
 }
 
+.hero.full-hero {
+  height: 50vh !important; 
+  min-height: auto !important;
+}
