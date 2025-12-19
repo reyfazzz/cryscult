@@ -1082,116 +1082,32 @@ ul {
   }
 }
 /* Full Width Hero with Single Background Image */
+/* Hero Section Container */
 .full-hero {
-  position: relative;
-  height: 80vh; /* Adjust as needed: 80vh = 80% of screen height */
-  min-height: 600px;
-  overflow: hidden;
-}
-
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.hero-background img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Stretches and crops to fill perfectly */
-  transition: transform 0.8s ease;
-}
-
-.full-hero:hover .hero-background img {
-  transform: scale(1.05); /* Subtle zoom on hover for engagement */
-}
-
-/* Dark overlay for better text readability */
-.full-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* Adjust opacity (0.2–0.5) based on your photo */
-  z-index: 2;
-}
-
-.full-hero {
-  position: relative;
-  height: 80vh;
-  min-height: 600px;
-  overflow: hidden;
-  background: var(--gray-light); /* Fallback color if image fails */
-}
-
-.hero-background {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-  transition: transform 0.8s ease;
-}
-
-
-.hero-overlay {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Dark tint – adjust 0.4 to 0.3-0.6 */
-  z-index: 2;
-}
-
-.hero-content {
-  position: fixed;        /* Фиксируем относительно экрана */
-  top: 50%;               /* Верхний край на 50% высоты экрана */
-  left: 50%;              /* Левый край на 50% ширины экрана */
-  transform: translate(-50%, -50%); /* Сдвигаем назад на половину своего размера */
-  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  color: white;
-  max-width: 900px;
-  width: 90%;
-  padding: 0 20px;
-  pointer-events: none;   /* Чтобы клики проходили сквозь текст (кроме кнопки) */
-}
-
-.hero-content > * {
-  pointer-events: all;    /* Кнопка и текст остаются кликабельными */
-}
-
-.full-hero {
-  position: relative;
-  height: 90vh;                  /* почти весь экран, но не 100% чтобы не было проблем со скроллом */
-  min-height: 600px;
-  overflow: hidden;
-  background: var(--gray-light); /* fallback на случай если фото не загрузится */
-}
-
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  background-image: url('images/hero.jpg');   /* ← твой файл */
+  height: 90vh;
+  min-height: 600px;
+  background: var(--gray-light);
+  background-image: url('images/hero.jpg');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-  transition: transform 0.8s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-
+/* Overlay using pseudo-element */
+.full-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0,0,0,0.5); /* adjust darkness */
+  z-index: 1;
+}
 
 .hero-overlay {
   position: absolute;
@@ -1252,6 +1168,12 @@ ul {
   .hero-content p {
     font-size: 1.2rem;
   }
+  .hero-content {
+    padding: 0 15px;
+  }
+  .hero-content .btn-primary {
+    padding: 16px 36px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1260,8 +1182,91 @@ ul {
   }
   .hero-content h1 {
     font-size: 2.6rem;
+    letter-spacing: 2px;
+  }
+  .hero-content p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  .hero-content .btn-primary {
+    padding: 14px 32px;
+    font-size: 0.9rem;
   }
 }
+
+.shop-collection-btn:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Product page image carousel */
+.product-gallery {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.carousel img {
+  width: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prev-btn {
+  left: 15px;
+}
+
+.next-btn {
+  right: 15px;
+}
+
+/* Footer changes – hide Shop column and Twitter/Discord */
+.footer-col:first-child {
+  display: none;
+}
+
+.social-links li:nth-child(2),
+.social-links li:nth-child(3) {
+  display: none;
+}
+
+.back-to-shop {
+  margin-top: 80px !important;       
+  display: block !important;
+  color: #888 !important;
+  font-size: 1rem !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+
+.back-to-shop:hover {
+  color: #0f0f0f !important;
+  text-decoration: underline !important;
+}
+
 .shop-collection-btn:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease;
