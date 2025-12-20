@@ -38,7 +38,7 @@ instagramButton.addEventListener('click', () => {
   }
 
   // МГНОВЕННЫЙ переход (важно для мобильных)
-  window.location.href = 'https://ig.me/m/USERNAME';
+  window.location.href = 'https://www.instagram.com/direct/t/17849360564929725/';
 });
 
   // Metro delivery button (unchanged)
@@ -145,4 +145,5 @@ function showFallbackModal(fullMessage) {
     overlay.remove();
   };
 }
+
 
