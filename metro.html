@@ -189,18 +189,17 @@
     window.location.href = 'index.html';
   }
 
-  // Product name mapping (keep in sync with options.js)
+  // Product name mapping
   const productNames = {
-    '1': 'cryscult T-Shirt',
-    // Add more products: '2': 'AirFlex Hoodie',
+    '1': 'CRYS CULT T-SHIRT',
   };
 
   const productName = productNames[productId] || 'Product';
 
-  // Your exact Instagram conversation thread URL
+  // Instagram conversation thread
   const conversationUrl = 'https://www.instagram.com/direct/t/17849360564929725/';
 
-  // Stations data (unchanged)
+  // Stations data
   const stations = [
     {name:"Dərnəgül",en:"Darnagul",line:"red"},
     {name:"Azadlıq prospekti",en:"Azadlig",line:"red"},
@@ -260,7 +259,7 @@
     };
   });
 
-  // Search functionality
+  // Search
   document.getElementById('search').oninput = e => {
     const line = document.querySelector('.tab.active').dataset.line;
     render(line, e.target.value.toLowerCase());
@@ -269,62 +268,117 @@
   // Initial render
   render();
 
-  // Confirm button with upgraded flow
+  // Confirm button
   document.getElementById('confirm').onclick = async () => {
     if (!selected) return;
 
-    // Create structured message
     const message = `Salam! Sifariş vermək istəyirəm.\nModel: ${productName}\nÖlçü: ${size}\nMetro stansiyası: ${selected}`;
 
     try {
-      // Copy message to clipboard
       await navigator.clipboard.writeText(message);
-
-      // Show modal
-      showInstagramModal();
-
-      // Open chat thread after modal closes
-      setTimeout(() => {
-        window.location.href = conversationUrl;
-      }, 1800); // Matches modal duration + fade
-
+      showCopySuccessModal();
     } catch (err) {
-      // Fallback if clipboard fails
-      alert('Failed to copy message. Please copy manually:\n\n' + message);
-      console.error(err);
+      showFallbackModal(message);
     }
   };
 
-  // Modal function (same as Instagram flow)
-  function showInstagramModal() {
-    // Create overlay
+  // Success modal (Azerbaijani version)
+  function showCopySuccessModal() {
     const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
+    overlay.style.cssText = `
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 99999; backdrop-filter: blur(6px);
+    `;
 
-    // Create modal content
     const modal = document.createElement('div');
-    modal.className = 'modal-content';
+    modal.style.cssText = `
+      background: white; padding: 32px 24px; border-radius: 16px;
+      max-width: 90%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    `;
+
     modal.innerHTML = `
-      <p>
-        Message copied ✓<br>
-        <span>Opening your chat…</span>
+      <h2 style="margin: 0 0 16px; font-size: 1.4rem;">✓ Mesaj kopyalandı!</h2>
+      <p style="margin: 0 0 24px; color: #444; line-height: 1.5;">
+        Sifariş mesajınız clipboard-a hazırdır.<br>
+        <strong>Növbəti:</strong><br>
+        1. "Instagram Chat-i Aç" düyməsinə basın<br>
+        2. Uzun basıb → Paste → Göndər
       </p>
+      <button id="open-ig" style="
+        background: #E1306C; color: white; border: none;
+        padding: 16px 32px; border-radius: 12px; font-size: 1.1rem;
+        font-weight: 600; cursor: pointer; width: 100%; max-width: 240px;
+      ">Instagram Chat-i Aç</button>
+      <br><br>
+      <button id="close-modal" style="
+        background: transparent; border: none; color: #666;
+        font-size: 1rem; cursor: pointer;
+      ">Bağla</button>
     `;
 
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    // Auto-close after 1.5 seconds
-    setTimeout(() => {
-      if (overlay && overlay.parentElement) {
-        overlay.style.animation = 'fadeOut 0.3s ease';
-        setTimeout(() => {
-          if (overlay.parentElement) {
-            overlay.remove();
-          }
-        }, 300);
-      }
-    }, 1500);
+    document.getElementById('open-ig').onclick = () => {
+      window.location.href = conversationUrl;
+    };
+
+    document.getElementById('close-modal').onclick = () => {
+      overlay.remove();
+    };
+  }
+
+  // Fallback modal
+  function showFallbackModal(fullMessage) {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 99999; backdrop-filter: blur(6px);
+    `;
+
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      background: white; padding: 32px 24px; border-radius: 16px;
+      max-width: 90%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    `;
+
+    modal.innerHTML = `
+      <h2 style="margin: 0 0 16px; font-size: 1.4rem;">Avtomatik kopyalanmadı</h2>
+      <p style="margin: 0 0 20px; color: #444;">
+        Zəhmət olmasa bu mesajı əl ilə kopyalayın:
+      </p>
+      <textarea readonly style="
+        width: 100%; min-height: 120px; padding: 12px;
+        border: 1px solid #ccc; border-radius: 8px;
+        font-family: monospace; resize: none; font-size: 1rem;
+      ">${fullMessage}</textarea>
+      <br><br>
+      <button id="open-ig" style="
+        background: #E1306C; color: white; border: none;
+        padding: 16px 32px; border-radius: 12px; font-size: 1.1rem;
+        font-weight: 600; cursor: pointer; width: 100%; max-width: 240px;
+      ">Instagram Chat-i Aç</button>
+      <br><br>
+      <button id="close-modal" style="
+        background: transparent; border: none; color: #666;
+        font-size: 1rem; cursor: pointer;
+      ">Bağla</button>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    document.getElementById('open-ig').onclick = () => {
+      window.location.href = conversationUrl;
+    };
+
+    document.getElementById('close-modal').onclick = () => {
+      overlay.remove();
+    };
   }
 </script>
 
