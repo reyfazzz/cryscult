@@ -38,7 +38,7 @@ instagramButton.addEventListener('click', () => {
   }
 
   // МГНОВЕННЫЙ переход (важно для мобильных)
-  window.location.href = 'https://www.instagram.com/direct/t/17849360564929725/';
+  window.location.href = 'https://www.instagram.com/cryscult/';
 });
 
   // Metro delivery button (unchanged)
@@ -145,5 +145,6 @@ function showFallbackModal(fullMessage) {
     overlay.remove();
   };
 }
+
 
 
