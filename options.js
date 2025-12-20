@@ -14,94 +14,132 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  
   const productNames = {
     '1': 'CRYS CULT T-SHIRT',
-    
   };
 
   const productName = productNames[params.id] || 'Product';
 
-  // Pre-written message (short, professional, in Azerbaijani)
+  // Pre-written message
   const message = `Salam! Sifariş vermək istəyirəm.\nModel: ${productName}\nÖlçü: ${params.size}`;
 
-  // Your exact conversation thread URL — this opens the specific chat
+  // Your exact Instagram conversation thread URL
   const conversationUrl = 'https://www.instagram.com/direct/t/17849360564929725/';
 
   const instagramButton = document.querySelector('.instagram-dm');
 
   instagramButton.addEventListener('click', async () => {
     try {
-      // Copy the order message to clipboard
+      // Try to copy
       await navigator.clipboard.writeText(message);
-
-      // Show confirmation modal
-      showInstagramModal();
-
-      // After modal closes, open your specific chat thread
-      setTimeout(() => {
-        window.location.href = conversationUrl;
-      }, 1800); // Matches modal duration + fade
+      showCopySuccessModal();
     } catch (err) {
-      alert('Failed to copy message. Please copy manually:\n\n' + message);
-      console.error(err);
+      // Fallback if copy fails
+      showFallbackModal(message);
     }
   });
 
-  // Metro delivery (unchanged)
+  // Metro delivery button (unchanged)
   document.querySelector('.metro-delivery').addEventListener('click', () => {
     window.location.href = `metro.html?id=${params.id}&size=${params.size}`;
   });
 });
 
-// Modal (same clean, blocking style as before)
-function showInstagramModal() {
+// New mobile-friendly success modal
+function showCopySuccessModal() {
   const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.background = 'rgba(0, 0, 0, 0.7)';
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-  overlay.style.zIndex = '9999';
-  overlay.style.backdropFilter = 'blur(5px)';
-  overlay.style.cursor = 'wait';
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 99999; backdrop-filter: blur(6px);
+  `;
 
   const modal = document.createElement('div');
-  modal.style.background = '#fff';
-  modal.style.padding = '30px 40px';
-  modal.style.borderRadius = '12px';
-  modal.style.textAlign = 'center';
-  modal.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
-  modal.style.maxWidth = '90%';
-  modal.style.animation = 'fadeIn 0.3s ease';
+  modal.style.cssText = `
+    background: white; padding: 32px 24px; border-radius: 16px;
+    max-width: 90%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  `;
 
   modal.innerHTML = `
-    <p style="font-size: 1.2rem; margin: 0; font-weight: 500;">
-      Message copied ✓<br>
-      <span style="font-size: 1rem; color: #555;">Opening your chat…</span>
+    <h2 style="margin: 0 0 16px; font-size: 1.4rem;">✓ Message Copied!</h2>
+    <p style="margin: 0 0 24px; color: #444; line-height: 1.5;">
+      Sifariş mesajınız clipboard-a kopyalandı.<br>
+      <strong>Növbəti addımlar:</strong><br>
+      1. Aşağıdakı düyməyə basın<br>
+      2. Instagram-da söhbət açılacaq → uzun basıb → Paste → Göndər
     </p>
+    <button id="open-ig" style="
+      background: #E1306C; color: white; border: none;
+      padding: 16px 32px; border-radius: 12px; font-size: 1.1rem;
+      font-weight: 600; cursor: pointer; width: 100%; max-width: 240px;
+    ">Instagram Chat-i Aç</button>
+    <br><br>
+    <button id="close-modal" style="
+      background: transparent; border: none; color: #666;
+      font-size: 1rem; cursor: pointer;
+    ">Bağla</button>
   `;
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // Auto-close modal after 1.5 seconds
-  setTimeout(() => {
-    if (overlay && overlay.parentElement) {
-      overlay.style.animation = 'fadeOut 0.3s ease';
-      setTimeout(() => overlay.remove(), 300);
-    }
-  }, 1500);
+  document.getElementById('open-ig').onclick = () => {
+    window.location.href = 'https://www.instagram.com/direct/t/17849360564929725/';
+  };
+
+  document.getElementById('close-modal').onclick = () => {
+    overlay.remove();
+  };
 }
 
-// Fade animations (add once)
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-  @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.9); } }
-`;
-document.head.appendChild(style);
+// Fallback modal if copy fails
+function showFallbackModal(fullMessage) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 99999; backdrop-filter: blur(6px);
+  `;
+
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    background: white; padding: 32px 24px; border-radius: 16px;
+    max-width: 90%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  `;
+
+  modal.innerHTML = `
+    <h2 style="margin: 0 0 16px; font-size: 1.4rem;">Avtomatik kopyalanmadı</h2>
+    <p style="margin: 0 0 20px; color: #444;">
+      Zəhmət olmasa bu mesajı əl ilə kopyalayın:
+    </p>
+    <textarea readonly style="
+      width: 100%; min-height: 120px; padding: 12px;
+      border: 1px solid #ccc; border-radius: 8px;
+      font-family: monospace; resize: none; font-size: 1rem;
+    ">${fullMessage}</textarea>
+    <br><br>
+    <button id="open-ig" style="
+      background: #E1306C; color: white; border: none;
+      padding: 16px 32px; border-radius: 12px; font-size: 1.1rem;
+      font-weight: 600; cursor: pointer; width: 100%; max-width: 240px;
+    ">Instagram Chat-i Aç</button>
+    <br><br>
+    <button id="close-modal" style="
+      background: transparent; border: none; color: #666;
+      font-size: 1rem; cursor: pointer;
+    ">Bağla</button>
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  document.getElementById('open-ig').onclick = () => {
+    window.location.href = 'https://www.instagram.com/direct/t/17849360564929725/';
+  };
+
+  document.getElementById('close-modal').onclick = () => {
+    overlay.remove();
+  };
+}
