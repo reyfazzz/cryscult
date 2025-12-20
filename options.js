@@ -26,18 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Your exact Instagram conversation thread URL
   const conversationUrl = 'https://www.instagram.com/direct/t/17849360564929725/';
 
-  const instagramButton = document.querySelector('.instagram-dm');
+const instagramButton = document.querySelector('.instagram-dm');
 
-  instagramButton.addEventListener('click', async () => {
-    try {
-      // Try to copy
-      await navigator.clipboard.writeText(message);
-      showCopySuccessModal();
-    } catch (err) {
-      // Fallback if copy fails
-      showFallbackModal(message);
-    }
-  });
+instagramButton.addEventListener('click', () => {
+  // сообщение (можешь оставить своё)
+  const message = `Salam! Sifariş vermək istəyirəm.\nModel: ${productName}\nÖlçü: ${params.size}`;
+
+  // попытка скопировать (не критично, если не сработает)
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(message).catch(() => {});
+  }
+
+  // МГНОВЕННЫЙ переход (важно для мобильных)
+  window.location.href = 'https://ig.me/m/USERNAME';
+});
 
   // Metro delivery button (unchanged)
   document.querySelector('.metro-delivery').addEventListener('click', () => {
@@ -143,3 +145,4 @@ function showFallbackModal(fullMessage) {
     overlay.remove();
   };
 }
+
