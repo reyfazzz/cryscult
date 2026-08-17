@@ -1,0 +1,680 @@
+/* ==================================================================
+   CRYSCULT — стили сайта
+   Структура файла (ищи по номерам):
+   1. Дизайн-токены (цвета, шрифты) — тут проще всего всё перекрасить
+   2. Базовые сбросы
+   3. Шапка (header)
+   4. Hero
+   5. Бегущая строка (marquee)
+   6. Drop preview (карточки товаров)
+   7. Closed Community
+   8. Внутренние страницы (отступ под шапку, хлебные крошки)
+   9. Форма (общие поля — переиспользуются формой заявки и заказа)
+   10. Футер
+   ================================================================== */
+
+  /* ============================================================
+     1. ДИЗАЙН-ТОКЕНЫ
+     Меняешь цвет/шрифт здесь — меняется по всему сайту.
+     ============================================================ */
+  :root{
+    /* --- основная (единственная) тема сайта — тёмная --- */
+    --bg:        #0d0c0b;   /* основной фон, тёплый почти-чёрный (не чистый #000) */
+    --bg-alt:    #16140f;   /* фон карточек/секций чуть светлее */
+    --bg-alt-2:  #1c1a15;   /* ещё чуть светлее — для hover-состояний */
+    --fg:        #f3ede2;   /* основной текст, тёплый белый (не чистый #fff) */
+    --fg-dim:    #a89c8a;   /* приглушённый текст (подписи, второстепенное) */
+    --line:      #2b2721;   /* тонкие разделители/бордеры */
+
+    /* --- акцент — взят с реального принта на футболке --- */
+    --accent:    #a4292e;
+    --accent-2:  #c94a44;
+    --on-accent: #f5efe6;  /* текст поверх акцентного цвета — всегда светлый */
+
+    /* --- отдельные константы для текста поверх тёмных фото (hero, community) —
+       эти секции остаются фотографиями с затемнением независимо от общей
+       темы сайта, поэтому текст на них всегда светлый, а не связан с --fg --- */
+    --on-photo:     #f5efe6;
+    --on-photo-dim: #d8cdbd;
+
+    /* --- шрифты --- */
+    --font-display: 'Bricolage Grotesque', sans-serif;
+    --font-body:    'Hanken Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+
+    /* --- прочее --- */
+    --container: 1280px;
+    --radius: 2px; /* сайт почти без скруглений — острые углы, стрит-стайл */
+  }
+
+  /* ============================================================
+     2. БАЗОВЫЕ СБРОСЫ
+     ============================================================ */
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{ display:block; max-width:100%; height:auto; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+  ul{ list-style:none; }
+
+  /* уважаем reduced-motion */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* видимый фокус для клавиатурной навигации */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--accent-2);
+    outline-offset:3px;
+  }
+
+  .container{
+    max-width:var(--container);
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:560px){
+    .container{ padding:0 20px; }
+  }
+
+  /* Утилита: горизонтальный "лейбл" как на бирке — используется для
+     маленьких подписей типа "DROP 002", "SKU", цен и т.д. */
+  .tag-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--fg-dim);
+  }
+  /* модификатор: тот же лейбл, но поверх тёмного фото (hero) — светлый текст */
+  .label-on-photo{ color:var(--on-photo-dim) !important; }
+
+  /* ============================================================
+     3. ШАПКА (HEADER)
+     ============================================================ */
+  .site-header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:18px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    /* тёмная полупрозрачная плашка + блюр — лого и меню всегда читаемы,
+       на каком бы фоне (фото/цвет) шапка ни оказалась при скролле */
+    background:rgba(13,12,11,0.6);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(243,237,226,0.08);
+  }
+  .site-header .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+  }
+  .site-header nav ul{
+    display:flex;
+    gap:28px;
+  }
+  .site-header nav a{
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--fg);
+  }
+  .site-header .logo img{
+    height:20px;
+    width:auto;
+    /* логотип изначально чёрный на прозрачном фоне — инвертируем в белый для тёмной шапки */
+    filter:invert(1) brightness(1.15);
+  }
+  .site-header .cart{
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  /* на мобильном прячем меню, оставляем лого + корзину + бургер (упрощённо — просто меню под лого) */
+  @media (max-width:720px){
+    .site-header nav ul{ gap:16px; }
+    .site-header nav a{ font-size:11px; }
+  }
+
+  /* ============================================================
+     4. HERO
+     Фон — фото со спины с реальным принтом "BE YOUR OWN DESIGNER".
+     Дуотон (чёрный → бордовый) поверх фото — визуальная отсылка
+     к трафаретной печати логотипа на одежде.
+     ============================================================ */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero__bg{
+    position:absolute;
+    inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    /* картинка уже задуотонирована заранее (см. images/README) —
+       так вид гарантированно одинаковый во всех браузерах */
+  }
+  .hero__overlay{
+    position:absolute;
+    inset:0;
+    /* градиент затемняет низ, чтобы текст всегда читался */
+    background:linear-gradient(180deg, rgba(13,12,11,0.1) 0%, rgba(13,12,11,0.3) 55%, rgba(13,12,11,0.94) 100%);
+  }
+  .hero__content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    padding-bottom:72px;
+  }
+  .hero__eyebrow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .hero__eyebrow .dot{
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--accent-2);
+    box-shadow:0 0 8px var(--accent-2);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
+  .hero__title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-style:italic;
+    font-size:clamp(48px, 10vw, 128px);
+    line-height:0.92;
+    letter-spacing:-0.01em;
+    text-transform:lowercase;
+    color:var(--on-photo); /* поверх фото — всегда светлый текст, не зависит от темы сайта */
+  }
+  .hero__tagline{
+    margin-top:18px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--on-photo-dim);
+    max-width:420px;
+  }
+  .hero__cta-row{
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  /* мобильный hero: чуть меньше высота и заметно меньше заголовок —
+     иначе жирный курсивный текст переносится на лишние строки и
+     "раздувает" блок сильно выше экрана */
+  @media (max-width:560px){
+    .hero{ min-height:68vh; }
+    .hero__content{ padding-bottom:32px; }
+    .hero__title{ font-size:clamp(30px, 9vw, 44px); }
+    .hero__tagline{ font-size:12px; }
+    .hero__cta-row{ margin-top:22px; gap:14px; }
+    .btn{ padding:13px 22px; font-size:12px; }
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 30px;
+    background:var(--accent);
+    color:var(--on-accent);
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    border-radius:var(--radius);
+    transition:background 0.25s ease;
+  }
+  .btn:hover{
+    background:var(--accent-2);
+  }
+  .btn--ghost{
+    background:transparent;
+    border:1px solid rgba(245,239,230,0.4);
+  }
+  .btn--ghost:hover{
+    background:rgba(245,239,230,0.1);
+    border-color:var(--on-photo);
+  }
+  /* модификатор: кнопка на всю ширину родителя — используется на
+     странице товара для "Оформить преордер" */
+  .btn--full{
+    width:100%;
+    justify-content:center;
+  }
+  /* неактивная кнопка — товар ещё не открыт к преордеру
+     (используется через aria-disabled="true", не через disabled,
+     т.к. это <a>, а не <button>) */
+  .btn[aria-disabled="true"]{
+    background:var(--bg-alt-2);
+    color:var(--fg-dim);
+    cursor:not-allowed;
+  }
+  .btn[aria-disabled="true"]:hover{
+    background:var(--bg-alt-2);
+  }
+
+  /* ============================================================
+     5. БЕГУЩАЯ СТРОКА (marquee)
+     Повторяет девиз бренда — структурный приём как разделитель секций.
+     ============================================================ */
+  .marquee{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--bg-alt);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:16px 0;
+  }
+  .marquee__track{
+    display:inline-flex;
+    width:max-content;
+    animation:marquee 40s linear infinite;
+  }
+  .marquee__group{
+    display:inline-flex;
+    flex-shrink:0;
+  }
+  .marquee__track span{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-style:italic;
+    font-size:20px;
+    text-transform:lowercase;
+    padding:0 28px;
+    color:var(--fg-dim);
+    display:inline-flex;
+    align-items:center;
+    gap:28px;
+  }
+  .marquee__track span::after{
+    content:"✦";
+    color:var(--accent);
+    font-style:normal;
+  }
+  @keyframes marquee{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ============================================================
+     6. СЕКЦИЯ: DROP PREVIEW (карточки товаров)
+     ============================================================ */
+  .section{
+    padding:100px 0;
+  }
+  .section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom:48px;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(28px, 4vw, 44px);
+    text-transform:lowercase;
+  }
+  .section-head p{
+    color:var(--fg-dim);
+    font-size:14px;
+    max-width:320px;
+  }
+
+  .drop-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:36px 24px; /* побольше зазор по вертикали — карточки без рамок, нужен воздух между рядами */
+  }
+  /* Минималистичная карточка: без подложки, без рамки, без бейджа
+     поверх фото — просто изображение и короткая подпись под ним
+     (референс: строгие каталоги вроде surroundclo / undersoul). */
+  .product-card{
+    position:relative;
+  }
+  .product-card__img-wrap{
+    position:relative;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    background:var(--bg-alt); /* видно, пока фото грузится */
+  }
+  .product-card__img-wrap img{
+    width:100%; height:100%;
+    object-fit:cover;
+    transition:transform 0.6s ease, opacity 0.4s ease;
+  }
+  .product-card:hover .product-card__img-wrap img{
+    transform:scale(1.03);
+  }
+  /* --- hover-свап: если у карточки есть 2 фото, второе (.is-hover-img)
+     лежит поверх первого с opacity:0 и плавно проявляется при наведении.
+     Если добавляешь второе фото другому товару — просто скопируй
+     разметку из первой карточки (два <img> вместо одного). --- */
+  .product-card__img-wrap .is-hover-img{
+    position:absolute;
+    inset:0;
+    opacity:0;
+  }
+  .product-card:hover .product-card__img-wrap .is-hover-img{
+    opacity:1;
+  }
+  .product-card__info{
+    padding-top:14px;
+  }
+  .product-card__name{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .product-card__meta{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+  .product-card__price{
+    color:var(--fg-dim);
+  }
+  .product-card__status{
+    color:var(--accent-2);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  @media (max-width:900px){
+    .drop-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media (max-width:560px){
+    .drop-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ============================================================
+     7. CLOSED COMMUNITY
+     Тёмная секция с фото-фоном в дуотоне + кнопка заявки.
+     ============================================================ */
+  .community{
+    position:relative;
+    min-height:70vh;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .community__bg{
+    position:absolute;
+    inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    /* фокус смещён вниз кадра — на уровень принта и руля,
+       а не на лица (у object-position чем больше % по Y, тем
+       больше видно НИЗ фото и обрезается верх) */
+    object-position:center 78%;
+    /* картинка уже задуотонирована заранее — см. images/README */
+  }
+  .community__overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg, rgba(13,12,11,0.96) 0%, rgba(13,12,11,0.8) 45%, rgba(13,12,11,0.4) 100%);
+  }
+  .community__content{
+    position:relative;
+    z-index:2;
+    max-width:560px;
+    padding:80px 0;
+  }
+  .community__eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin-bottom:16px;
+  }
+  .community__title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-style:italic;
+    font-size:clamp(32px, 5vw, 52px);
+    text-transform:lowercase;
+    line-height:1.05;
+    margin-bottom:20px;
+    color:var(--on-photo); /* поверх фото — всегда светлый */
+  }
+  .community__text{
+    color:var(--on-photo-dim);
+    font-size:15px;
+    line-height:1.7;
+    margin-bottom:32px;
+    max-width:440px;
+  }
+  /* мобильный Closed Community: та же логика, что у hero — секция
+     не должна быть выше самого контента, иначе много пустого фото
+     вокруг небольшого заголовка */
+  @media (max-width:560px){
+    .community{ min-height:auto; }
+    .community__content{ padding:56px 0; }
+    .community__title{ font-size:clamp(28px, 9vw, 40px); }
+    .community__text{ font-size:14px; margin-bottom:26px; }
+  }
+
+  /* ============================================================
+     8. ВНУТРЕННИЕ СТРАНИЦЫ (product, community-apply, checkout)
+     У них нет "hero" на весь экран, поэтому фиксированная шапка
+     (position:fixed) перекрывала бы контент — даём странице
+     отступ сверху размером с высоту шапки. Плюс общие хлебные
+     крошки для всех таких страниц.
+     ============================================================ */
+  .page-content{
+    padding-top:104px;
+  }
+  @media (max-width:560px){
+    .page-content{ padding-top:88px; }
+  }
+  .breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:40px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--fg-dim);
+    flex-wrap:wrap;
+  }
+  .breadcrumb a{ color:var(--fg-dim); transition:color 0.2s ease; }
+  .breadcrumb a:hover{ color:var(--fg); }
+  .breadcrumb .sep{ opacity:0.5; }
+  .breadcrumb .current{ color:var(--fg); }
+
+  /* ============================================================
+     9. ФОРМА — общие стили полей
+     Переиспользуются формой заявки в комьюнити (community.css)
+     и формой заказа (checkout.css) — чтобы не дублировать одни и
+     те же input/label дважды в разных файлах.
+     ============================================================ */
+  .field{
+    margin-bottom:26px;
+  }
+  label.field-label{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--fg-dim);
+    margin-bottom:10px;
+  }
+  .field-hint{
+    font-size:12px;
+    color:var(--fg-dim);
+    margin-top:6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea{
+    width:100%;
+    background:transparent;
+    border:1px solid var(--line);
+    padding:14px 16px;
+    color:var(--fg);
+    font-family:var(--font-body);
+    font-size:14px;
+    transition:border-color 0.2s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  textarea:focus{
+    outline:none;
+    border-color:var(--fg-dim);
+  }
+  textarea{
+    min-height:100px;
+    resize:vertical;
+    font-family:var(--font-body);
+  }
+  /* статус после отправки формы (успех/ошибка) — используется и
+     формой заявки, и формой заказа */
+  .form-status{
+    display:none;
+    margin-top:20px;
+    padding:16px 18px;
+    border:1px solid var(--line);
+    font-size:14px;
+    line-height:1.6;
+  }
+  .form-status.is-visible{ display:block; }
+  .form-status.is-success{ border-color:var(--accent-2); color:var(--fg); }
+  .form-status.is-error{ color:var(--fg-dim); }
+
+  /* ============================================================
+     10. ФУТЕР
+     ============================================================ */
+  .site-footer{
+    border-top:1px solid var(--line);
+    padding-top:72px;
+  }
+  .footer-top{
+    display:flex;
+    justify-content:space-between;
+    gap:48px;
+    flex-wrap:wrap;
+    padding-bottom:64px;
+  }
+  .footer-newsletter h3{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:22px;
+    margin-bottom:10px;
+    text-transform:lowercase;
+  }
+  .footer-newsletter p{
+    color:var(--fg-dim);
+    font-size:14px;
+    margin-bottom:22px;
+    max-width:320px;
+  }
+  .newsletter-form{
+    display:flex;
+    max-width:380px;
+    border:1px solid var(--line);
+  }
+  .newsletter-form input{
+    flex:1;
+    background:transparent;
+    border:none;
+    padding:14px 16px;
+    color:var(--fg);
+    font-family:var(--font-body);
+    font-size:14px;
+  }
+  .newsletter-form input::placeholder{ color:var(--fg-dim); }
+  .newsletter-form button{
+    padding:14px 22px;
+    background:var(--accent);
+    color:var(--on-accent);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    white-space:nowrap;
+    transition:background 0.25s ease;
+  }
+  .newsletter-form button:hover{ background:var(--accent-2); }
+
+  .footer-links{
+    display:flex;
+    gap:64px;
+    flex-wrap:wrap;
+  }
+  .footer-col h4{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--fg-dim);
+    margin-bottom:16px;
+  }
+  .footer-col ul{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .footer-col a{
+    font-size:14px;
+    color:var(--fg);
+    opacity:0.85;
+    transition:opacity 0.2s ease;
+  }
+  .footer-col a:hover{ opacity:1; color:var(--accent-2); }
+
+  .footer-bottom{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .footer-bottom .copy{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--fg-dim);
+  }
+
+  @media (max-width:720px){
+    .section{ padding:64px 0; }
+    .footer-links{ gap:32px; }
+  }

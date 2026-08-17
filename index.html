@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cryscult — be your own designer</title>
+<meta name="description" content="cryscult — streetwear бренд из Баку. Лимитированные дропы. Be your own designer.">
+
+<!-- ============================================================
+     ШРИФТЫ
+     display  = Bricolage Grotesque (жирный, с италиком) — заголовки
+     body     = Hanken Grotesk — обычный текст, кнопки, меню
+     mono     = JetBrains Mono — цены, SKU, лейблы (как на бирке одежды)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..900&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- стили вынесены в отдельный файл — см. css/style.css -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ШАПКА
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container">
+      <nav aria-label="Основная навигация">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#drop">Catalog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="index.html" class="logo" aria-label="cryscult — на главную">
+        <img src="images/logo-transparent.png" alt="cryscult">
+      </a>
+      <a href="#" class="cart">Cart (0)</a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       Чтобы поменять фото фона — замени images/hero-back-print.jpg
+       Чтобы поменять текст дропа — правь .hero__tagline и кнопки ниже
+       ============================================================ -->
+  <section class="hero">
+    <img class="hero__bg" src="images/hero-back-print-duotone.jpg" alt="">
+    <div class="hero__overlay"></div>
+    <div class="hero__content container">
+      <div class="hero__eyebrow">
+        <span class="dot"></span>
+        <span class="tag-label label-on-photo">Drop 002 — preorder opening soon</span>
+      </div>
+      <h1 class="hero__title">be your own<br>designer</h1>
+      <p class="hero__tagline">Лимитированные дропы streetwear из Баку.<br>Каждая вещь — ограниченный тираж без допечаток.</p>
+      <div class="hero__cta-row">
+        <a href="#drop" class="btn">Смотреть дроп</a>
+        <a href="#community" class="btn btn--ghost">Closed Community</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Бегущая строка — правь фразу в переменной ниже через find&replace по тексту.
+       Внутри — ДВЕ одинаковые группы по 8 повторов подряд; анимация сдвигает
+       трек ровно на половину (-50%), поэтому стык между группами невидим
+       и лента бежит бесконечно на любой ширине экрана. -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+      </div>
+      <div class="marquee__group" aria-hidden="true">
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+        <span>cryscult · be your own designer · limited drop · baku</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DROP PREVIEW — карточки товаров
+       Каждая .product-card — один товар. Копируй блок для нового товара.
+       Минималистичная карточка: фото + название + цена/статус снизу,
+       без подложки и без цветного бейджа поверх фото.
+       ============================================================ -->
+  <section class="section" id="drop">
+    <div class="container">
+      <div class="section-head">
+        <h2>drop 002 preview</h2>
+        <p class="tag-label">Available for preorder · production starts after preorder closes</p>
+      </div>
+
+      <div class="drop-grid">
+
+        <!-- Товар 1 — обложка: вид спереди (маленький принт на груди).
+             При наведении показывается вид сзади (большой принт cryscult).
+             Ведёт на готовую страницу товара product.html -->
+        <a href="product.html" class="product-card">
+          <div class="product-card__img-wrap">
+            <img src="images/product-black-tee-front.jpg" alt="cryscult tee black — front">
+            <img class="is-hover-img" src="images/product-black-tee-back.jpg" alt="cryscult tee black — back print">
+          </div>
+          <div class="product-card__info">
+            <div class="product-card__name">Tee Black — Front/Back Print</div>
+            <div class="product-card__meta">
+              <span class="product-card__price">35 AZN</span>
+              <span class="product-card__status">Preorder</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Товар 2 — обложка: вид спереди. При наведении — вид сзади.
+             Ведёт на product-white.html -->
+        <a href="product-white.html" class="product-card">
+          <div class="product-card__img-wrap">
+            <img src="images/product-white-tee-front.jpg" alt="cryscult tee white — front">
+            <img class="is-hover-img" src="images/product-white-tee-back-clean.jpg" alt="cryscult tee white — back print">
+          </div>
+          <div class="product-card__info">
+            <div class="product-card__name">Tee White — Front/Back</div>
+            <div class="product-card__meta">
+              <span class="product-card__price">35 AZN</span>
+              <span class="product-card__status">Preorder</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Товар 3 — ведёт на product-white-script.html -->
+        <a href="product-white-script.html" class="product-card">
+          <div class="product-card__img-wrap">
+            <img src="images/product-white-tee-sample.jpg" alt="cryscult tee white — sample">
+          </div>
+          <div class="product-card__info">
+            <div class="product-card__name">Tee White — Script Logo</div>
+            <div class="product-card__meta">
+              <span class="product-card__price">35 AZN</span>
+              <span class="product-card__status">Soon</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CLOSED COMMUNITY
+       Кнопка APPLY сейчас ведёт на "#" — замени href на ссылку
+       на твой Telegram-канал/чат или форму заявки.
+       ============================================================ -->
+  <section class="community" id="community">
+    <img class="community__bg" src="images/community-bg-duotone.jpg" alt="">
+    <div class="community__overlay"></div>
+    <div class="container">
+      <div class="community__content">
+        <div class="community__eyebrow">Cryscult Closed Community</div>
+        <h2 class="community__title">не для всех.<br>только свои.</h2>
+        <p class="community__text">
+          Закрытое сообщество тех, кто уже носит cryscult — ранний доступ к дропам,
+          голосование за будущие принты и место, где решает комьюнити, а не витрина.
+        </p>
+        <a href="community-apply.html" class="btn">Подать заявку</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ФУТЕР
+       ============================================================ -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-newsletter">
+          <h3>join the list</h3>
+          <p>Узнай о новом дропе первым — рассылка о запуске преордера и закрытых релизах.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Твой email" required aria-label="Email для рассылки">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="#drop">Catalog</a></li>
+              <li><a href="#drop">New Drop</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Info</h4>
+            <ul>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Social</h4>
+            <ul>
+              <li><a href="https://instagram.com/cryscult" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a href="https://t.me/cryscult" target="_blank" rel="noopener">Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="copy">© 2026 cryscult. All rights reserved.</span>
+        <span class="copy">Baku, Azerbaijan</span>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- скрипты вынесены в отдельный файл — см. js/script.js -->
+  <script src="js/script.js"></script>
+</body>
+</html>

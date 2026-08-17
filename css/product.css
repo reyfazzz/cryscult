@@ -1,0 +1,331 @@
+/* ==================================================================
+   CRYSCULT — стили СТРАНИЦЫ ТОВАРА
+   Подключается ВМЕСТЕ с css/style.css (там токены, шапка, футер,
+   бегущая строка, .page-content/.breadcrumb и т.д. — этот файл их
+   не дублирует, только то, что нужно только на странице товара).
+
+   Структура файла:
+   1. Галерея (главное фото + миниатюры)
+   2. Информация о товаре (цена, буллеты, SKU)
+   3. Выбор размера
+   4. Аккордеон (доставка/уход)
+   5. Модалка Size Chart
+   ================================================================== */
+
+/* ============================================================
+   2. ГАЛЕРЕЯ
+   Слева — колонка миниатюр, справа — большое фото. На мобильном
+   миниатюры уходят в горизонтальный ряд под главным фото
+   (см. медиа-запрос внизу файла).
+   ============================================================ */
+.product-layout{
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:64px;
+  margin-bottom:100px;
+  align-items:start;
+}
+.product-gallery{
+  display:flex;
+  gap:16px;
+  position:sticky;
+  top:104px; /* держим галерею на виду при скролле длинного описания справа */
+}
+.product-gallery__thumbs{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:72px;
+  flex-shrink:0;
+}
+.product-gallery__thumbs button{
+  aspect-ratio:1/1;
+  padding:0;
+  overflow:hidden;
+  background:var(--bg-alt);
+  border:1px solid transparent;
+  opacity:0.5;
+  transition:opacity 0.2s ease, border-color 0.2s ease;
+}
+.product-gallery__thumbs button:hover{ opacity:0.8; }
+.product-gallery__thumbs button.is-active{
+  opacity:1;
+  border-color:var(--accent-2);
+}
+.product-gallery__thumbs img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+.product-gallery__viewer{
+  flex:1;
+  min-width:0; /* чтобы flex-элемент не растягивал родителя за счёт картинки */
+}
+.product-gallery__main{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  background:var(--bg-alt);
+}
+.product-gallery__main img{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 0.35s ease;
+}
+.product-gallery__main img.is-active{ opacity:1; }
+/* Нумерация под фото — как на surroundclo: альтернативный способ
+   пролистать галерею, дублирует клики по миниатюрам слева. Если
+   миниатюр больше/меньше — просто добавь/убери кнопки-цифры. */
+.product-gallery__pager{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  padding-top:14px;
+}
+.product-gallery__pager button{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--fg-dim);
+  padding:4px 2px;
+  border-bottom:1px solid transparent;
+  transition:color 0.2s ease, border-color 0.2s ease;
+}
+.product-gallery__pager button:hover{ color:var(--fg); }
+.product-gallery__pager button.is-active{
+  color:var(--fg);
+  border-color:var(--accent-2);
+}
+
+/* ============================================================
+   3. ИНФОРМАЦИЯ О ТОВАРЕ
+   ============================================================ */
+.product-info__eyebrow{ margin-bottom:14px; }
+.product-info h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(26px, 2.6vw, 36px);
+  line-height:1.1;
+  margin-bottom:14px;
+}
+.product-info__price{
+  font-family:var(--font-mono);
+  font-size:20px;
+  color:var(--fg);
+  margin-bottom:22px;
+}
+.product-info__desc{
+  color:var(--fg-dim);
+  font-size:14px;
+  line-height:1.75;
+  max-width:46ch;
+  margin-bottom:26px;
+}
+.product-info__features{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin-bottom:30px;
+}
+.product-info__features li{
+  position:relative;
+  padding-left:18px;
+  font-size:14px;
+  color:var(--fg-dim);
+  line-height:1.5;
+}
+.product-info__features li::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  color:var(--accent-2);
+}
+.product-info__sku{
+  margin-top:24px;
+}
+
+/* ============================================================
+   4. ВЫБОР РАЗМЕРА
+   ============================================================ */
+.size-select{ margin-bottom:28px; }
+.size-select__head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.product-info__size-label{
+  font-size:13px;
+  font-weight:700;
+}
+.size-chart-trigger{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  transition:color 0.2s ease;
+}
+.size-chart-trigger:hover{ color:var(--fg); }
+.size-grid{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.size-grid button{
+  width:50px;
+  height:50px;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--fg);
+  font-family:var(--font-mono);
+  font-size:13px;
+  transition:border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.size-grid button:hover:not(:disabled){ border-color:var(--fg-dim); }
+.size-grid button.is-selected{
+  background:var(--fg);
+  color:var(--bg);
+  border-color:var(--fg);
+}
+.size-grid button:disabled{
+  opacity:0.3;
+  text-decoration:line-through;
+  cursor:not-allowed;
+}
+
+.product-info__note{
+  margin-top:14px;
+}
+
+/* ============================================================
+   5. АККОРДЕОН (доставка / уход за вещью)
+   Нативные <details>/<summary> — работает без единой строчки JS.
+   ============================================================ */
+.product-accordion{
+  border-top:1px solid var(--line);
+  margin-top:34px;
+}
+.product-accordion details{
+  border-bottom:1px solid var(--line);
+}
+.product-accordion summary{
+  padding:16px 0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:12px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  list-style:none;
+}
+.product-accordion summary::-webkit-details-marker{ display:none; }
+.product-accordion summary::after{
+  content:"+";
+  font-family:var(--font-mono);
+  color:var(--fg-dim);
+  font-size:16px;
+}
+.product-accordion details[open] summary::after{ content:"–"; }
+.product-accordion .accordion-body{
+  padding:0 0 18px;
+  color:var(--fg-dim);
+  font-size:13px;
+  line-height:1.7;
+  max-width:52ch;
+}
+
+/* ============================================================
+   6. МОДАЛКА SIZE CHART
+   Нативный <dialog> — открывается/закрывается парой строк JS
+   (см. js/product.js), сам браузер даёт фокус-ловушку и Escape.
+   ============================================================ */
+dialog.size-chart-modal{
+  /* центрируем сами, не полагаясь на дефолтное поведение браузера —
+     в паре браузеров нативный <dialog> без этого открывался в левом
+     верхнем углу вместо центра экрана */
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  margin:0;
+  background:var(--bg-alt);
+  color:var(--fg);
+  border:1px solid var(--line);
+  padding:32px;
+  max-width:440px;
+  width:90%;
+}
+dialog.size-chart-modal::backdrop{
+  background:rgba(13,12,11,0.75);
+  backdrop-filter:blur(4px);
+}
+.size-chart-modal__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.size-chart-modal__head h3{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:18px;
+}
+.size-chart-modal__close{
+  font-family:var(--font-mono);
+  font-size:20px;
+  line-height:1;
+  color:var(--fg-dim);
+}
+.size-chart-modal__close:hover{ color:var(--fg); }
+.size-chart-table{
+  width:100%;
+  border-collapse:collapse;
+  font-family:var(--font-mono);
+  font-size:13px;
+}
+.size-chart-table th, .size-chart-table td{
+  text-align:left;
+  padding:9px 6px;
+  border-bottom:1px solid var(--line);
+  color:var(--fg-dim);
+}
+.size-chart-table th{
+  color:var(--fg);
+  font-weight:600;
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:0.05em;
+}
+.size-chart-modal__note{
+  margin-top:16px;
+  font-size:12px;
+  color:var(--fg-dim);
+  line-height:1.6;
+}
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+@media (max-width:900px){
+  .product-layout{ grid-template-columns:1fr; gap:32px; }
+  .product-gallery{ position:static; }
+}
+/* секция "you may also like" идёт сразу после товара, у которого уже
+   есть свой большой отступ снизу (.product-layout) — не дублируем его */
+.section--tight{ padding-top:0; }
+@media (max-width:560px){
+  .product-gallery{ flex-direction:column-reverse; }
+  .product-gallery__thumbs{
+    flex-direction:row;
+    width:auto;
+  }
+  .product-gallery__thumbs button{ width:64px; flex-shrink:0; }
+}

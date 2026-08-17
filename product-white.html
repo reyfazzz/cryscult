@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tee White — Front/Back — cryscult</title>
+<meta name="description" content="cryscult — Tee White, Front/Back. Лимитированный дроп 002, преордер открыт.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..900&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ОБЩИЕ стили сайта (токены, шапка, футер, карточки и т.д.) -->
+<link rel="stylesheet" href="css/style.css">
+<!-- стили ТОЛЬКО для страницы товара (галерея, размеры, аккордеон) -->
+<link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ШАПКА — один в один как на главной. Если меняешь меню на
+       главной, не забудь продублировать изменение и сюда (шапка
+       не вынесена в общий include, т.к. сайт статический, без
+       шаблонизатора).
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container">
+      <nav aria-label="Основная навигация">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#drop">Catalog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="index.html" class="logo" aria-label="cryscult — на главную">
+        <img src="images/logo-transparent.png" alt="cryscult">
+      </a>
+      <a href="#" class="cart">Cart (0)</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Хлебные крошки -->
+      <nav class="breadcrumb" aria-label="Хлебные крошки">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <a href="index.html#drop">Catalog</a>
+        <span class="sep">/</span>
+        <span class="current">Tee White — Front/Back</span>
+      </nav>
+
+      <!-- ============================================================
+           ТОВАР: галерея слева, инфо справа
+           ============================================================ -->
+      <div class="product-layout">
+
+        <!-- ---------- ГАЛЕРЕЯ ----------
+             Чтобы добавить фото: 1) добавь <button> в .product-gallery__thumbs
+             с уникальным data-target, 2) добавь соответствующий <img>
+             в .product-gallery__main с таким же data-id, 3) добавь ещё
+             одну цифру в .product-gallery__pager (нумерация — как на
+             surroundclo, дублирует клики по миниатюрам, просто альтернативный
+             способ переключения для тех, кто не смотрит на миниатюры сбоку). -->
+        <div class="product-gallery">
+          <div class="product-gallery__thumbs">
+            <button type="button" class="is-active" data-target="front" aria-label="Вид спереди">
+              <img src="images/product-white-tee-front.jpg" alt="">
+            </button>
+            <button type="button" data-target="back" aria-label="Вид сзади">
+              <img src="images/product-white-tee-back-clean.jpg" alt="">
+            </button>
+          </div>
+          <div class="product-gallery__viewer">
+            <div class="product-gallery__main">
+              <img class="is-active" data-id="front" src="images/product-white-tee-front.jpg" alt="cryscult Tee White — вид спереди">
+              <img data-id="back" src="images/product-white-tee-back-clean.jpg" alt="cryscult Tee White — вид сзади, принт cryscult">
+            </div>
+            <div class="product-gallery__pager">
+              <button type="button" class="is-active" data-target="front">1</button>
+              <button type="button" data-target="back">2</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- ИНФОРМАЦИЯ О ТОВАРЕ ----------
+             Порядок блоков — как в референсе surroundclo: короткие
+             буллеты → SKU → выбор размера → кнопка добавления. -->
+        <div class="product-info">
+          <span class="tag-label product-info__eyebrow">Drop 002 · Limited</span>
+
+          <h1>Tee White — Front/Back</h1>
+          <div class="product-info__price">35 AZN</div>
+
+          <!-- Короткие пункты вместо предложений — так лаконичнее и
+               ближе к референсу (Regular fit / Front print / 100% cotton) -->
+          <ul class="product-info__features">
+            <li>Oversize fit</li>
+            <li>Front + back print</li>
+            <li>240 g/m² cotton</li>
+            <li>Limited run — no restock</li>
+          </ul>
+
+          <div class="tag-label product-info__sku">SKU CC-002-WHT</div>
+
+          <!-- Выбор размера -->
+          <div class="size-select">
+            <div class="size-select__head">
+              <span class="product-info__size-label">Size</span>
+              <button type="button" class="size-chart-trigger" data-open-size-chart>Size chart</button>
+            </div>
+            <div class="size-grid">
+              <button type="button">S</button>
+              <button type="button" class="is-selected">M</button>
+              <button type="button">L</button>
+              <button type="button">XL</button>
+            </div>
+          </div>
+
+          <a href="checkout.html?product=Tee%20White%20%E2%80%94%20Front%2FBack&price=35&sku=CC-002-WHT&img=images%2Fproduct-white-tee-front.jpg"
+             class="btn btn--full add-to-cart-btn">Оформить преордер — 35 AZN</a>
+          <p class="tag-label product-info__note">Производство запускается после сбора минимальной партии преордеров</p>
+
+          <!-- Аккордеон: доставка / уход — чистый HTML, без JS -->
+          <div class="product-accordion">
+            <details>
+              <summary>Доставка и оплата</summary>
+              <div class="accordion-body">
+                Преордер оформляется переводом на карту (реквизиты после оформления
+                заявки). Отправка по Баку и по Азербайджану — после закрытия преордера
+                и производства партии. Точные сроки уточняются в Instagram/Telegram.
+              </div>
+            </details>
+            <details>
+              <summary>Уход за вещью</summary>
+              <div class="accordion-body">
+                Machine wash cold, стирка с вещами похожего цвета. Не отбеливать.
+                Гладить с изнаночной стороны, не проглаживать принт напрямую.
+              </div>
+            </details>
+            <details>
+              <summary>Обмен и возврат</summary>
+              <div class="accordion-body">
+                Так как это лимитированный преордер под конкретный тираж, обмен
+                возможен только на другой размер (при наличии) в течение 3 дней
+                после получения. Возврат при браке — всегда.
+              </div>
+            </details>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================================
+           YOU MAY ALSO LIKE — переиспользуем те же .product-card,
+           что и на главной. Пока ссылки ведут в каталог на главной —
+           когда появятся отдельные страницы других товаров, замени
+           href на них.
+           ============================================================ -->
+      <section class="section section--tight">
+        <div class="section-head">
+          <h2>you may also like</h2>
+        </div>
+        <div class="drop-grid">
+
+          <a href="product.html" class="product-card">
+            <div class="product-card__img-wrap">
+              <img src="images/product-black-tee-front.jpg" alt="cryscult tee black — front">
+              <img class="is-hover-img" src="images/product-black-tee-back.jpg" alt="cryscult tee black — back print">
+            </div>
+            <div class="product-card__info">
+              <div class="product-card__name">Tee Black — Front/Back Print</div>
+              <div class="product-card__meta">
+                <span class="product-card__price">35 AZN</span>
+                <span class="product-card__status">Preorder</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="product-white-script.html" class="product-card">
+            <div class="product-card__img-wrap">
+              <img src="images/product-white-tee-sample.jpg" alt="cryscult tee white — sample">
+            </div>
+            <div class="product-card__info">
+              <div class="product-card__name">Tee White — Script Logo</div>
+              <div class="product-card__meta">
+                <span class="product-card__price">35 AZN</span>
+                <span class="product-card__status">Soon</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       ФУТЕР — тот же блок, что на главной
+       ============================================================ -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-newsletter">
+          <h3>join the list</h3>
+          <p>Узнай о новом дропе первым — рассылка о запуске преордера и закрытых релизах.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Твой email" required aria-label="Email для рассылки">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="index.html#drop">Catalog</a></li>
+              <li><a href="index.html#drop">New Drop</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Info</h4>
+            <ul>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Social</h4>
+            <ul>
+              <li><a href="https://instagram.com/cryscult" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a href="https://t.me/cryscult" target="_blank" rel="noopener">Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="copy">© 2026 cryscult. All rights reserved.</span>
+        <span class="copy">Baku, Azerbaijan</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       МОДАЛКА: ТАБЛИЦА РАЗМЕРОВ
+       Открывается кнопкой "Таблица размеров" рядом с выбором размера.
+       Цифры ниже — ПРИМЕР, замени на реальные замеры своих вещей.
+       ============================================================ -->
+  <dialog id="sizeChartModal" class="size-chart-modal">
+    <div class="size-chart-modal__head">
+      <h3>Таблица размеров</h3>
+      <button type="button" class="size-chart-modal__close" data-close-size-chart aria-label="Закрыть">×</button>
+    </div>
+    <table class="size-chart-table">
+      <thead>
+        <tr>
+          <th>Размер</th>
+          <th>Ширина, см</th>
+          <th>Длина, см</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>S</td><td>56</td><td>68</td></tr>
+        <tr><td>M</td><td>59</td><td>70</td></tr>
+        <tr><td>L</td><td>62</td><td>72</td></tr>
+        <tr><td>XL</td><td>65</td><td>74</td></tr>
+      </tbody>
+    </table>
+    <p class="size-chart-modal__note">Ширина измеряется по горизонтали от шва до шва, длина — от плеча вниз. Крой оверсайз, при сомнении между размерами берите меньший.</p>
+  </dialog>
+
+  <!-- скрипты: общие (форма подписки) + только для страницы товара -->
+  <script src="js/script.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>

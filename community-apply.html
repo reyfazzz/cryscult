@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заявка в Closed Community — cryscult</title>
+<meta name="description" content="cryscult Closed Community — заявка на вступление в закрытое сообщество бренда.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..900&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ОБЩИЕ стили сайта (токены, шапка, футер и т.д.) -->
+<link rel="stylesheet" href="css/style.css">
+<!-- стили ТОЛЬКО для этой страницы (форма заявки) -->
+<link rel="stylesheet" href="css/community.css">
+</head>
+<body>
+
+  <!-- ШАПКА — один в один как на остальных страницах -->
+  <header class="site-header">
+    <div class="container">
+      <nav aria-label="Основная навигация">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#drop">Catalog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="index.html" class="logo" aria-label="cryscult — на главную">
+        <img src="images/logo-transparent.png" alt="cryscult">
+      </a>
+      <a href="#" class="cart">Cart (0)</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Хлебные крошки -->
+      <nav class="breadcrumb" aria-label="Хлебные крошки">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <span class="current">Closed Community</span>
+      </nav>
+
+      <div class="apply-intro">
+        <span class="tag-label apply-intro__eyebrow">Cryscult Closed Community</span>
+        <h1>не для всех.<br>только свои.</h1>
+        <p>
+          Закрытое сообщество тех, кто уже носит cryscult — ранний доступ к дропам,
+          голосование за будущие принты и место, где решает комьюнити, а не витрина.
+          Заявки рассматриваются вручную — если подходишь, напишем тебе в Telegram.
+        </p>
+      </div>
+
+      <!-- ============================================================
+           ФОРМА ЗАЯВКИ
+           Технически отправляет данные в Google Forms в обход самой
+           страницы Google — см. подробную инструкцию по настройке
+           в js/community-form.js (там нужно один раз вписать ID формы
+           и ID полей после того, как создашь форму в Google Forms).
+           ============================================================ -->
+      <form id="applyForm" class="apply-form" novalidate>
+
+        <div class="field">
+          <label class="field-label" for="fieldTelegram">Telegram-юзернейм *</label>
+          <input type="text" id="fieldTelegram" name="telegram" placeholder="@username" required>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="fieldName">Имя *</label>
+          <input type="text" id="fieldName" name="name" placeholder="Как к тебе обращаться" required>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="fieldInstagram">Instagram-юзернейм</label>
+          <input type="text" id="fieldInstagram" name="instagram" placeholder="@username">
+        </div>
+
+        <div class="field">
+          <span class="field-label">Уже покупал(а) у cryscult? *</span>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="purchased" value="Да">
+              Да
+            </label>
+            <label>
+              <input type="radio" name="purchased" value="Нет">
+              Нет
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="fieldReason">Почему хочешь в комьюнити?</label>
+          <textarea id="fieldReason" name="reason" placeholder="Пара слов — необязательно, но приятно почитать"></textarea>
+        </div>
+
+        <button type="submit" class="btn apply-form__submit">Отправить заявку</button>
+
+        <div id="applyFormStatus" class="form-status" role="status" aria-live="polite"></div>
+
+      </form>
+
+    </div>
+  </main>
+
+  <!-- ФУТЕР — тот же блок, что на остальных страницах -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-newsletter">
+          <h3>join the list</h3>
+          <p>Узнай о новом дропе первым — рассылка о запуске преордера и закрытых релизах.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Твой email" required aria-label="Email для рассылки">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="index.html#drop">Catalog</a></li>
+              <li><a href="index.html#drop">New Drop</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Info</h4>
+            <ul>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Social</h4>
+            <ul>
+              <li><a href="https://instagram.com/cryscult" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a href="https://t.me/cryscult" target="_blank" rel="noopener">Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="copy">© 2026 cryscult. All rights reserved.</span>
+        <span class="copy">Baku, Azerbaijan</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- скрипты: общий (форма подписки) + только для этой страницы -->
+  <script src="js/script.js"></script>
+  <script src="js/community-form.js"></script>
+</body>
+</html>

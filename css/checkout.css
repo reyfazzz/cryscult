@@ -1,0 +1,194 @@
+/* ==================================================================
+   CRYSCULT — стили СТРАНИЦЫ ОФОРМЛЕНИЯ ЗАКАЗА (checkout.html)
+   Подключается ВМЕСТЕ с css/style.css (токены, шапка, футер, общие
+   стили полей формы .field/.field-label/input/.form-status — этот
+   файл их не дублирует).
+
+   Страница показывает ДВА ШАГА в одном месте: сначала форма с
+   данными покупателя (.checkout-step-form), после отправки —
+   реквизиты для оплаты (.checkout-step-payment). Переключение
+   между ними на JS (класс .is-active), см. js/checkout.js.
+   ================================================================== */
+
+.checkout-layout{
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:64px;
+  margin-bottom:100px;
+  align-items:start;
+}
+
+/* ---------- Сводка заказа (слева) ---------- */
+.order-summary{
+  border:1px solid var(--line);
+  padding:24px;
+  position:sticky;
+  top:104px;
+}
+.order-summary__img{
+  aspect-ratio:1/1;
+  overflow:hidden;
+  background:var(--bg-alt);
+  margin-bottom:18px;
+}
+.order-summary__img img{
+  width:100%; height:100%;
+  object-fit:cover;
+}
+.order-summary__name{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:18px;
+  margin-bottom:6px;
+}
+.order-summary__variant{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--fg-dim);
+  margin-bottom:16px;
+}
+.order-summary__row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-top:1px solid var(--line);
+  font-size:14px;
+}
+.order-summary__row.total{
+  font-family:var(--font-mono);
+  font-size:16px;
+  color:var(--fg);
+  font-weight:600;
+}
+.order-summary__row .label{ color:var(--fg-dim); }
+
+/* Степпер количества — +/- кнопки вокруг числа */
+.qty-stepper{
+  display:flex;
+  align-items:center;
+  border:1px solid var(--line);
+}
+.qty-stepper button{
+  width:36px; height:36px;
+  font-family:var(--font-mono);
+  font-size:16px;
+  color:var(--fg);
+  transition:background 0.2s ease;
+}
+.qty-stepper button:hover{ background:var(--bg-alt); }
+.qty-stepper span{
+  width:32px;
+  text-align:center;
+  font-family:var(--font-mono);
+  font-size:14px;
+}
+
+/* ---------- Правая колонка: форма → оплата ---------- */
+.checkout-steps{ min-width:0; }
+
+/* Уведомление "этот заказ уже оформлялся" — показывается через JS,
+   когда в localStorage браузера находится совпадение по товару+размеру */
+.already-ordered-notice{
+  border:1px solid var(--line);
+  background:var(--bg-alt);
+  padding:16px 18px;
+  margin-bottom:28px;
+  font-size:13px;
+  color:var(--fg-dim);
+  line-height:1.6;
+}
+.already-ordered-notice button{
+  color:var(--accent-2);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.already-ordered-notice button:hover{ color:var(--fg); }
+
+.checkout-step{ display:none; }
+.checkout-step.is-active{ display:block; }
+
+.checkout-step-form h2,
+.checkout-step-payment h2{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:22px;
+  margin-bottom:24px;
+  text-transform:lowercase;
+}
+
+.checkout-form__submit{ margin-top:8px; }
+.checkout-form__submit:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
+/* ---------- Шаг 2: реквизиты оплаты ---------- */
+.payment-card{
+  border:1px solid var(--accent-2);
+  padding:24px;
+  margin-bottom:24px;
+}
+.payment-card__row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding:8px 0;
+  font-size:14px;
+}
+.payment-card__row .label{
+  color:var(--fg-dim);
+  font-family:var(--font-mono);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+.payment-card__row .value{
+  font-family:var(--font-mono);
+  font-size:15px;
+  letter-spacing:0.03em;
+}
+.payment-card__order-code{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+}
+.payment-card__order-code .value{
+  color:var(--accent-2);
+  font-size:18px;
+  font-weight:600;
+}
+
+.payment-steps{
+  list-style:none;
+  counter-reset:payment-step;
+  margin-bottom:28px;
+}
+.payment-steps li{
+  counter-increment:payment-step;
+  position:relative;
+  padding-left:32px;
+  margin-bottom:16px;
+  font-size:14px;
+  color:var(--fg-dim);
+  line-height:1.6;
+}
+.payment-steps li::before{
+  content:counter(payment-step);
+  position:absolute;
+  left:0; top:0;
+  width:22px; height:22px;
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--fg);
+}
+.payment-steps li strong{ color:var(--fg); font-weight:600; }
+
+@media (max-width:900px){
+  .checkout-layout{ grid-template-columns:1fr; gap:36px; }
+  .order-summary{ position:static; }
+}

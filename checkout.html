@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оформление заказа — cryscult</title>
+<meta name="description" content="cryscult — оформление преордера.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..900&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ОБЩИЕ стили сайта (токены, шапка, футер и т.д.) -->
+<link rel="stylesheet" href="css/style.css">
+<!-- стили ТОЛЬКО для этой страницы -->
+<link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+  <!-- ШАПКА — один в один как на остальных страницах -->
+  <header class="site-header">
+    <div class="container">
+      <nav aria-label="Основная навигация">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#drop">Catalog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="index.html" class="logo" aria-label="cryscult — на главную">
+        <img src="images/logo-transparent.png" alt="cryscult">
+      </a>
+      <a href="#" class="cart">Cart (0)</a>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+
+      <nav class="breadcrumb" aria-label="Хлебные крошки">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <span class="current">Оформление заказа</span>
+      </nav>
+
+      <div class="checkout-layout">
+
+        <!-- ============================================================
+             СВОДКА ЗАКАЗА
+             Всё содержимое (фото/название/размер/цена) подставляется
+             через JS из URL — см. комментарий в начале js/checkout.js.
+             ============================================================ -->
+        <aside class="order-summary">
+          <div class="order-summary__img">
+            <img id="summaryImg" src="" alt="">
+          </div>
+          <div class="order-summary__name" id="summaryName">—</div>
+          <div class="order-summary__variant" id="summarySize">—</div>
+
+          <div class="order-summary__row">
+            <span class="label">Количество</span>
+            <div class="qty-stepper">
+              <button type="button" id="qtyMinus" aria-label="Уменьшить количество">–</button>
+              <span id="qtyValue">1</span>
+              <button type="button" id="qtyPlus" aria-label="Увеличить количество">+</button>
+            </div>
+          </div>
+          <div class="order-summary__row">
+            <span class="label">Цена за штуку</span>
+            <span id="summaryPrice">—</span>
+          </div>
+          <div class="order-summary__row total">
+            <span class="label">Итого</span>
+            <span id="summaryTotal">—</span>
+          </div>
+        </aside>
+
+        <!-- ============================================================
+             ДВА ШАГА: форма контактов → реквизиты оплаты
+             Переключаются через JS (класс .is-active), см. js/checkout.js
+             ============================================================ -->
+        <div class="checkout-steps">
+
+          <!-- ---------- Уведомление, если этот товар+размер уже
+               оформлялись раньше (данные из localStorage браузера) ----------
+               По умолчанию скрыто (hidden), показывается через JS
+               в js/checkout.js, если находит совпадение. -->
+          <div id="alreadyOrderedNotice" class="already-ordered-notice" hidden>
+            <p>Ты уже оформил(а) этот заказ <span id="alreadyOrderedDate"></span> —
+              реквизиты оплаты показаны справа. Если хочешь оформить ещё один
+              (другой размер или количество) —
+              <button type="button" id="placeNewOrderBtn">жми сюда</button>.
+            </p>
+          </div>
+
+          <!-- ---------- ШАГ 1: контактные данные ---------- -->
+          <section class="checkout-step is-active" id="stepForm">
+            <h2>контакты для заказа</h2>
+
+            <form id="checkoutForm" novalidate>
+
+              <div class="field">
+                <label class="field-label" for="fieldName">Имя *</label>
+                <input type="text" id="fieldName" name="name" placeholder="Как к тебе обращаться" required>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="fieldContact">Telegram-юзернейм или телефон *</label>
+                <input type="text" id="fieldContact" name="contact" placeholder="@username или +994..." required>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="fieldMetro">Удобная станция метро *</label>
+                <input type="text" id="fieldMetro" name="metro" placeholder="Например, 28 Мая">
+                <p class="field-hint">Доставка бесплатная, к станции метро — точное время и место согласуем в Telegram.</p>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="fieldComment">Комментарий</label>
+                <textarea id="fieldComment" name="comment" placeholder="Удобное время, пожелания — необязательно"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn--full checkout-form__submit">Оформить преордер</button>
+
+              <div id="checkoutFormStatus" class="form-status" role="status" aria-live="polite"></div>
+
+            </form>
+          </section>
+
+          <!-- ---------- ШАГ 2: реквизиты оплаты (показывается после отправки формы) ---------- -->
+          <section class="checkout-step" id="stepPayment">
+            <h2>оплата</h2>
+
+            <ol class="payment-steps">
+              <li>Переведи <strong id="paymentAmount">—</strong> на карту ниже</li>
+              <li>Сделай скриншот перевода</li>
+              <li>Пришли скриншот в Telegram <strong id="paymentTelegramContact">—</strong>, указав код заказа</li>
+            </ol>
+
+            <div class="payment-card">
+              <div class="payment-card__row">
+                <span class="label">Номер карты</span>
+                <span class="value" id="paymentCardNumber">—</span>
+              </div>
+              <div class="payment-card__row">
+                <span class="label">Получатель</span>
+                <span class="value" id="paymentCardHolder">—</span>
+              </div>
+              <div class="payment-card__row">
+                <span class="label">Банк</span>
+                <span class="value" id="paymentBankName">—</span>
+              </div>
+              <div class="payment-card__order-code">
+                <span class="label">Код заказа (укажи в Telegram)</span><br>
+                <span class="value" id="paymentOrderCode">—</span>
+              </div>
+            </div>
+
+            <p class="field-hint">
+              Производство запускается после сбора минимальной партии преордеров —
+              как только это случится, напишем в Telegram с деталями отправки.
+            </p>
+          </section>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ФУТЕР — тот же блок, что на остальных страницах -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-newsletter">
+          <h3>join the list</h3>
+          <p>Узнай о новом дропе первым — рассылка о запуске преордера и закрытых релизах.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Твой email" required aria-label="Email для рассылки">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="index.html#drop">Catalog</a></li>
+              <li><a href="index.html#drop">New Drop</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Info</h4>
+            <ul>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Social</h4>
+            <ul>
+              <li><a href="https://instagram.com/cryscult" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a href="https://t.me/cryscult" target="_blank" rel="noopener">Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="copy">© 2026 cryscult. All rights reserved.</span>
+        <span class="copy">Baku, Azerbaijan</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
